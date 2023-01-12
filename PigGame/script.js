@@ -20,6 +20,16 @@ score0El.textContent = 0;
 score1El.textContent = 0;
 diceEl.classList.add('hidden')
 
+//Function to switch players
+const switchPlayer = function(){
+    document.getElementById(`current--${activePlayer}`).textContent = 0;
+    currentScore = 0;
+    activePlayer = activePlayer === 0 ? 1 :0; 
+    // Add a class that deactivates player1
+    player0El.classList.toggle('player--active')
+    player1El.classList.toggle('player--active')
+}
+
 //Rolling dice functionality
 btnRoll.addEventListener('click', function(){
     // 1. Generating a random dice roll
@@ -38,13 +48,19 @@ btnRoll.addEventListener('click', function(){
     }else {
         // Switch to next player
         // if active player is 0 then the new active player is 1 else 0
-        document.getElementById(`current--${activePlayer}`).textContent = 0;
-        currentScore = 0;
-        activePlayer = activePlayer === 0 ? 1 :0; 
-        // Add a class that deactivates player1
-        player0El.classList.toggle('player--active')
-        player1El.classList.toggle('player--active')
+       switchPlayer();
         //Add a class that activates player2
     }
 })
 
+//Holding score functionality
+btnhold.addEventListener('click', function(){
+    //1.Add current score to active player
+    scores[activePlayer] += currentScore
+    document.getElementById(`score--${activePlayer}`).textContent = scores[activePlayer];
+
+    //2. Check if the player score is >= 100 
+    //Finish game
+   // Else switch to next player
+   switchPlayer();
+})
